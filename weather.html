@@ -21,6 +21,7 @@
 
         </div>
 
+        <div id="todayweather"></div>
         <div id="weatherGrid" class="weather-grid">
 
             <div class="loading">
@@ -78,9 +79,12 @@
                 "?latitude=" + LATITUDE +
                 "&longitude=" + LONGITUDE +
                 "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
-                "&hourly=weather_code,wind_speed_10m" +
+                "&hourly=weather_code,wind_speed_10m,temperature_2m" +
                 "&timezone=auto";
 
+            const hourlyTemp =
+                data.hourly.temperature_2m;
+            
             const response = await fetch(url);
 
             const data = await response.json();
@@ -89,6 +93,21 @@
                 document.getElementById("weatherGrid");
 
             grid.innerHTML = "";
+
+            const todayContainer = 
+                document.getElementById(
+                    "todayWeather"
+                    );
+
+            const todayDate = 
+                dates[0];
+
+            const todayObj =
+                new Date(todayDate);
+
+            const todayFormatted =
+                '${todayObj.getMonth()+1}/${todayObj.getDate()}
+                ($
 
             const dates =
                 data.daily.time;
@@ -142,6 +161,21 @@
                 return Math.round(
                     hourlyWind[index] / 3.6
                 ).toFixed(1);
+            }
+
+            function genHourlyTemp(date, hour){
+                const target =
+                    '${date}T${hour}:00";
+
+                const index =
+                    hourlyTimes.index0f(target);
+                if(index < 0){
+                    return "-";
+                }
+
+                return Math.round(
+                    hourlyTemp[index]
+                    );
             }
 
             for(let i=0;i<dates.length;i++){
