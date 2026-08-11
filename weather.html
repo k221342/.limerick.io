@@ -94,21 +94,81 @@
 
             grid.innerHTML = "";
 
-            const todayContainer = 
+            const todayContainer =
                 document.getElementById(
                     "todayWeather"
-                    );
-
-            const todayDate = 
+                );
+            
+            const todayDate =
                 dates[0];
-
+            
             const todayObj =
                 new Date(todayDate);
-
+            
             const todayFormatted =
-                '${todayObj.getMonth()+1}/${todayObj.getDate()}
-                ($
-
+                `${todayObj.getMonth()+1}/${todayObj.getDate()} (${weekdays[todayObj.getDay()]})`;
+            
+            todayContainer.innerHTML = `
+            
+                <div class="today-card">
+            
+                    <div class="today-title">
+                        TODAY ${todayFormatted}
+                    </div>
+            
+                    <div class="today-row">
+                        <div class="row-label">Time</div>
+                        <div class="row-values">
+                            <span>06</span>
+                            <span>09</span>
+                            <span>12</span>
+                            <span>15</span>
+                            <span>18</span>
+                        </div>
+                    </div>
+            
+                    <div class="today-row">
+                        <div class="row-label">Weather</div>
+                        <div class="row-values">
+                            <span>${getHourlyIcon(todayDate,"06")}</span>
+                            <span>${getHourlyIcon(todayDate,"09")}</span>
+                            <span>${getHourlyIcon(todayDate,"12")}</span>
+                            <span>${getHourlyIcon(todayDate,"15")}</span>
+                            <span>${getHourlyIcon(todayDate,"18")}</span>
+                        </div>
+                    </div>
+            
+                    <div class="today-row">
+                        <div class="row-label">Temp</div>
+                        <div class="row-values">
+                            <span>${getHourlyTemp(todayDate,"06")}°</span>
+                            <span>${getHourlyTemp(todayDate,"09")}°</span>
+                            <span>${getHourlyTemp(todayDate,"12")}°</span>
+                            <span>${getHourlyTemp(todayDate,"15")}°</span>
+                            <span>${getHourlyTemp(todayDate,"18")}°</span>
+                        </div>
+                    </div>
+            
+                    <div class="today-row">
+                        <div class="row-label">Wind (m/s)</div>
+                        <div class="row-values">
+                            <span>${getHourlyWind(todayDate,"06")}</span>
+                            <span>${getHourlyWind(todayDate,"09")}</span>
+                            <span>${getHourlyWind(todayDate,"12")}</span>
+                            <span>${getHourlyWind(todayDate,"15")}</span>
+                            <span>${getHourlyWind(todayDate,"18")}</span>
+                        </div>
+                    </div>
+            
+                    <div class="today-temp-summary">
+                        <span>↑ ${Math.round(maxTemps[0])}°</span>
+                        <span>↓ ${Math.round(minTemps[0])}°</span>
+                    </div>
+            
+                </div>
+            
+            `;
+            
             const dates =
                 data.daily.time;
 
@@ -178,7 +238,7 @@
                     );
             }
 
-            for(let i=0;i<dates.length;i++){
+            for(let i=1;i<dates.length;i++){
 
                 const d =
                     new Date(dates[i]);
