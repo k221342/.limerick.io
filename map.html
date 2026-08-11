@@ -258,6 +258,19 @@
         `);
 
         L.marker(
+            [52.663663473660016, -8.622071309555166],
+            { icon: supermarketIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>The Milk Market</b><br>
+            市場<br>
+            金日 11:00 - 15:00<br>
+            土　  8:00 - 15:00<br>
+            <i class="fa-solid fa-car"></i> 車 10分
+        `);
+
+        L.marker(
             [52.67002977743547, -8.661670448912028],
             { icon: shoppingcentreIcon }
         )
