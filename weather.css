@@ -371,7 +371,13 @@ body{
     }
 
     .today-row{
-        margin-bottom:13px;
+        display:grid;
+    
+        grid-template-columns:
+            70px
+            1fr;
+    
+        align-items:center;
     }
 
     .row-label{
@@ -381,15 +387,32 @@ body{
     }
 
     .row-values{
-        gap:4px;
+        display:grid;
+    
+        grid-template-columns:
+            repeat(5, minmax(40px, 1fr));
+    
+        gap:0;
+    
+        width:100%;
+    }
+    
+    .row-values span{
+        display:flex;
+    
+        justify-content:center;
+    
+        align-items:center;
+    
+        width:100%;
     }
 
     .today-row:nth-child(1) .row-values span{
-        font-size:1.3rem;
+        font-size:1.0rem;
     }
     
     .today-row:nth-child(2) .row-values span{
-        font-size:1.9rem;
+        font-size:2rem;
     }
     
     .today-row:nth-child(3) .row-values span{
