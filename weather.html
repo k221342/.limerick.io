@@ -22,6 +22,7 @@
         </div>
 
         <div id="todayWeather"></div>
+
         <div id="weatherGrid" class="weather-grid">
 
             <div class="loading">
@@ -40,6 +41,14 @@
 
         const LATITUDE = 52.67418731232117;
         const LONGITUDE = -8.571933345030319;
+
+        const DISPLAY_HOURS = [
+            "6",
+            "9",
+            "12",
+            "15",
+            "18"
+        ];
 
         const weatherCodeMap = {
 
@@ -60,6 +69,7 @@
             81: ["🌧️", "Rain"],
             82: ["🌧️", "Heavy Rain"],
             95: ["⛈️", "Thunderstorm"]
+
         };
 
         const weekdays = [
@@ -78,295 +88,400 @@
                 "https://api.open-meteo.com/v1/forecast" +
                 "?latitude=" + LATITUDE +
                 "&longitude=" + LONGITUDE +
-                "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
-                "&hourly=weather_code,wind_speed_10m,temperature_2m" +
+                "&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max" +
+                "&hourly=weather_code,wind_speed_10m,temperature_2m,uv_index" +
+                "&wind_speed_unit=kmh" +
                 "&timezone=auto";
-            
-            const response = await fetch(url);
 
-            const data = await response.json();
+            try {
 
-            const hourlyTemp =
-                data.hourly.temperature_2m;
+                const response = await fetch(url);
 
-            const grid =
-                document.getElementById("weatherGrid");
-
-            grid.innerHTML = "";
-
-            const todayContainer =
-                document.getElementById(
-                    "todayWeather"
-                );
-
-            const dates =
-                data.daily.time;
-
-            const maxTemps =
-                data.daily.temperature_2m_max;
-
-            const minTemps =
-                data.daily.temperature_2m_min;
-
-            const hourlyTimes =
-                data.hourly.time;
-
-            const hourlyCodes =
-                data.hourly.weather_code;
-
-            const hourlyWind =
-                data.hourly.wind_speed_10m;
-            
-            const todayDate =
-                dates[0];
-            
-            const todayObj =
-                new Date(todayDate);
-            
-            const todayFormatted =
-                `${todayObj.getMonth()+1}/${todayObj.getDate()} (${weekdays[todayObj.getDay()]})`;
-
-            function getHourlyIcon(date, hour) {
-
-                const target =
-                    `${date}T${hour}:00`;
-
-                const index =
-                    hourlyTimes.indexOf(target);
-
-                if(index < 0){
-                    return "❓";
+                if (!response.ok) {
+                    throw new Error("天気情報の取得に失敗しました");
                 }
 
-                return (
-                    weatherCodeMap[
-                        hourlyCodes[index]
-                    ] || ["❓"]
-                )[0];
-            }
+                const data = await response.json();
 
-            function getHourlyWind(date, hour){
+                const grid =
+                    document.getElementById("weatherGrid");
 
-                const target =
-                    `${date}T${hour}:00`;
+                const todayContainer =
+                    document.getElementById("todayWeather");
 
-                const index =
-                    hourlyTimes.indexOf(target);
+                grid.innerHTML = "";
+                todayContainer.innerHTML = "";
 
-                if(index < 0){
-                    return "-";
+                const dates =
+                    data.daily.time;
+
+                const maxTemps =
+                    data.daily.temperature_2m_max;
+
+                const minTemps =
+                    data.daily.temperature_2m_min;
+
+                const dailyUvMax =
+                    data.daily.uv_index_max;
+
+                const hourlyTimes =
+                    data.hourly.time;
+
+                const hourlyCodes =
+                    data.hourly.weather_code;
+
+                const hourlyWind =
+                    data.hourly.wind_speed_10m;
+
+                const hourlyTemp =
+                    data.hourly.temperature_2m;
+
+                const hourlyUv =
+                    data.hourly.uv_index;
+
+                function formatDate(dateText) {
+
+                    const d =
+                        new Date(dateText);
+
+                    return `${d.getMonth() + 1}/${d.getDate()} (${weekdays[d.getDay()]})`;
+
                 }
 
-                return Math.round(
-                    hourlyWind[index] / 3.6
-                ).toFixed(1);
-            }
+                function getHourlyIndex(date, hour) {
 
-            function getHourlyTemp(date, hour){
+                    const target =
+                        `${date}T${hour}:00`;
 
-                const target =
-                    `${date}T${hour}:00`;
-            
-                const index =
-                    hourlyTimes.indexOf(target);
-            
-                if(index < 0){
-                    return "-";
+                    return hourlyTimes.indexOf(target);
+
                 }
-            
-                return Math.round(
-                    hourlyTemp[index]
-                );
-            }
 
-            function getTempColor(temp){
+                function getHourlyIcon(date, hour) {
 
-                if(temp <= 10){
-                    return "#1d6fd7";
+                    const index =
+                        getHourlyIndex(date, hour);
+
+                    if (index < 0) {
+                        return "❓";
+                    }
+
+                    return (
+                        weatherCodeMap[
+                            hourlyCodes[index]
+                        ] || ["❓"]
+                    )[0];
+
                 }
-            
-                if(temp <= 15){
-                    return "#4b8cff";
+
+                function getHourlyWind(date, hour) {
+
+                    const index =
+                        getHourlyIndex(date, hour);
+
+                    if (index < 0) {
+                        return "-";
+                    }
+
+                    return (
+                        hourlyWind[index] / 3.6
+                    ).toFixed(1);
+
                 }
-            
-                if(temp <= 20){
-                    return "#ff9800";
+
+                function getHourlyTemp(date, hour) {
+
+                    const index =
+                        getHourlyIndex(date, hour);
+
+                    if (index < 0) {
+                        return "-";
+                    }
+
+                    return Math.round(
+                        hourlyTemp[index]
+                    );
+
                 }
-            
-                return "#e53935";
-            }
 
-            todayContainer.innerHTML = `
-            
-                <div class="today-card">
-            
-                    <div class="today-title">
-                        TODAY ${todayFormatted}
+                function getTempColor(temp) {
+
+                    const value =
+                        Number(temp);
+
+                    if (!Number.isFinite(value)) {
+                        return "#777777";
+                    }
+
+                    if (value <= 10) {
+                        return "#1d6fd7";
+                    }
+
+                    if (value <= 15) {
+                        return "#4b8cff";
+                    }
+
+                    if (value <= 20) {
+                        return "#ff9800";
+                    }
+
+                    return "#e53935";
+
+                }
+
+                function getUvInfo(uvValue) {
+
+                    const value =
+                        Number(uvValue);
+
+                    if (!Number.isFinite(value)) {
+                        return {
+                            level: "UNKNOWN",
+                            label: "UV情報なし",
+                            message: "日焼け対策情報なし",
+                            className: "uv-unknown"
+                        };
+                    }
+
+                    if (value <= 2) {
+                        return {
+                            level: "LOW",
+                            label: "低い",
+                            message: "ほぼ心配なし",
+                            className: "uv-low"
+                        };
+                    }
+
+                    if (value <= 5) {
+                        return {
+                            level: "MODERATE",
+                            label: "中程度",
+                            message: "日焼け止め推奨",
+                            className: "uv-moderate"
+                        };
+                    }
+
+                    if (value <= 7) {
+                        return {
+                            level: "HIGH",
+                            label: "高い",
+                            message: "日焼け対策必須",
+                            className: "uv-high"
+                        };
+                    }
+
+                    if (value <= 10) {
+                        return {
+                            level: "VERY HIGH",
+                            label: "非常に高い",
+                            message: "長時間屋外注意",
+                            className: "uv-very-high"
+                        };
+                    }
+
+                    return {
+                        level: "EXTREME",
+                        label: "極端に高い",
+                        message: "日陰推奨",
+                        className: "uv-extreme"
+                    };
+
+                }
+
+                function getUvPeakTime(date) {
+
+                    let maxUv =
+                        -1;
+
+                    let peakTime =
+                        "";
+
+                    for (let i = 0; i < hourlyTimes.length; i++) {
+
+                        if (!hourlyTimes[i].startsWith(date)) {
+                            continue;
+                        }
+
+                        const uv =
+                            Number(hourlyUv[i]);
+
+                        if (!Number.isFinite(uv)) {
+                            continue;
+                        }
+
+                        if (uv > maxUv) {
+                            maxUv = uv;
+                            peakTime = hourlyTimes[i].slice(11, 16);
+                        }
+
+                    }
+
+                    if (peakTime === "") {
+                        return "";
+                    }
+
+                    return peakTime;
+
+                }
+
+                function createRow(label, valuesHtml) {
+
+                    return `
+                        <div class="today-row">
+                            <div class="row-label">${label}</div>
+                            <div class="row-values">
+                                ${valuesHtml}
+                            </div>
+                        </div>
+                    `;
+
+                }
+
+                function createWeatherDetailCard(date, index, isToday) {
+
+                    const formattedDate =
+                        formatDate(date);
+
+                    const title =
+                        isToday ?
+                            `TODAY ${formattedDate}` :
+                            formattedDate;
+
+                    const timeValues =
+                        DISPLAY_HOURS.map(function (hour) {
+                            return `<span>${hour}</span>`;
+                        }).join("");
+
+                    const weatherValues =
+                        DISPLAY_HOURS.map(function (hour) {
+                            return `<span>${getHourlyIcon(date, hour)}</span>`;
+                        }).join("");
+
+                    const tempValues =
+                        DISPLAY_HOURS.map(function (hour) {
+
+                            const temp =
+                                getHourlyTemp(date, hour);
+
+                            return `
+                                <span style="color:${getTempColor(temp)}">
+                                    ${temp}°
+                                </span>
+                            `;
+
+                        }).join("");
+
+                    const windValues =
+                        DISPLAY_HOURS.map(function (hour) {
+                            return `<span>${getHourlyWind(date, hour)}</span>`;
+                        }).join("");
+
+                    const uvValue =
+                        dailyUvMax[index];
+
+                    const uvInfo =
+                        getUvInfo(uvValue);
+
+                    const uvPeakTime =
+                        getUvPeakTime(date);
+
+                    const uvPeakTimeText =
+                        uvPeakTime === "" ?
+                            "" :
+                            `<span class="uv-time">Peak ${uvPeakTime}</span>`;
+
+                    return `
+
+                        <div class="${isToday ? "today-card" : "weather-card detail-weather-card"}">
+
+                            <div class="${isToday ? "today-title" : "date"}">
+                                ${title}
+                            </div>
+
+                            ${createRow("Time", timeValues)}
+
+                            ${createRow("Weather", weatherValues)}
+
+                            ${createRow("Temp", tempValues)}
+
+                            ${createRow("Wind (m/s)", windValues)}
+
+                            <div class="uv-summary ${uvInfo.className}">
+
+                                <div class="uv-main">
+                                    <span class="uv-icon">☀️</span>
+                                    <span class="uv-level">UV ${uvInfo.level}</span>
+                                    <span class="uv-value">${Number(uvValue).toFixed(1)}</span>
+                                </div>
+
+                                <div class="uv-sub">
+                                    ${uvPeakTimeText}
+                                    <span class="uv-label">${uvInfo.label}</span>
+                                </div>
+
+                                <div class="uv-action">
+                                    🧴 ${uvInfo.message}
+                                </div>
+
+                            </div>
+
+                            <div class="today-temp-summary">
+
+                                <span style="color:${getTempColor(maxTemps[index])}">
+                                    ↑ ${Math.round(maxTemps[index])}°
+                                </span>
+
+                                <span style="color:${getTempColor(minTemps[index])}">
+                                    ↓ ${Math.round(minTemps[index])}°
+                                </span>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                }
+
+                todayContainer.innerHTML =
+                    createWeatherDetailCard(
+                        dates[0],
+                        0,
+                        true
+                    );
+
+                for (let i = 1; i < dates.length; i++) {
+
+                    const card =
+                        document.createElement("div");
+
+                    card.innerHTML =
+                        createWeatherDetailCard(
+                            dates[i],
+                            i,
+                            false
+                        );
+
+                    grid.appendChild(
+                        card.firstElementChild
+                    );
+
+                }
+
+            } catch (error) {
+
+                const grid =
+                    document.getElementById("weatherGrid");
+
+                grid.innerHTML = `
+                    <div class="loading">
+                        天気情報を取得できませんでした。時間をおいて再読み込みしてください。
                     </div>
-            
-                    <div class="today-row">
-                        <div class="row-label">Time</div>
-                        <div class="row-values">
-                            <span>06</span>
-                            <span>09</span>
-                            <span>12</span>
-                            <span>15</span>
-                            <span>18</span>
-                        </div>
-                    </div>
-            
-                    <div class="today-row">
-                        <div class="row-label">Weather</div>
-                        <div class="row-values">
-                            <span>${getHourlyIcon(todayDate,"06")}</span>
-                            <span>${getHourlyIcon(todayDate,"09")}</span>
-                            <span>${getHourlyIcon(todayDate,"12")}</span>
-                            <span>${getHourlyIcon(todayDate,"15")}</span>
-                            <span>${getHourlyIcon(todayDate,"18")}</span>
-                        </div>
-                    </div>
-            
-                    <div class="today-row">
-                        <div class="row-label">Temp</div>
-                        <div class="row-values">
-                    
-                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'06'))}">
-                                ${getHourlyTemp(todayDate,"06")}°
-                            </span>
-                    
-                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'09'))}">
-                                ${getHourlyTemp(todayDate,"09")}°
-                            </span>
-                    
-                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'12'))}">
-                                ${getHourlyTemp(todayDate,"12")}°
-                            </span>
-                    
-                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'15'))}">
-                                ${getHourlyTemp(todayDate,"15")}°
-                            </span>
-                    
-                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'18'))}">
-                                ${getHourlyTemp(todayDate,"18")}°
-                            </span>
-                    
-                        </div>
-                    </div>
-            
-                    <div class="today-row">
-                        <div class="row-label">Wind (m/s)</div>
-                        <div class="row-values">
-                            <span>${getHourlyWind(todayDate,"06")}</span>
-                            <span>${getHourlyWind(todayDate,"09")}</span>
-                            <span>${getHourlyWind(todayDate,"12")}</span>
-                            <span>${getHourlyWind(todayDate,"15")}</span>
-                            <span>${getHourlyWind(todayDate,"18")}</span>
-                        </div>
-                    </div>
-            
-                    <div class="today-temp-summary">
-                        <span
-                            style="color:${getTempColor(maxTemps[0])}">
-                            ↑ ${Math.round(maxTemps[0])}°
-                        </span>
-                    
-                        <span
-                            style="color:${getTempColor(minTemps[0])}">
-                            ↓ ${Math.round(minTemps[0])}°
-                        </span>
-                    </div>           
-                </div>
-            `;
-
-            for(let i=1;i<dates.length;i++){
-
-                const d =
-                    new Date(dates[i]);
-
-                const formattedDate =
-                    `${d.getMonth()+1}/${d.getDate()} (${weekdays[d.getDay()]})`;
-
-                const icon06 =
-                    getHourlyIcon(dates[i],"06");
-
-                const icon09 =
-                    getHourlyIcon(dates[i],"09");
-
-                const icon12 =
-                    getHourlyIcon(dates[i],"12");
-
-                const icon15 =
-                    getHourlyIcon(dates[i],"15");
-
-                const icon18 =
-                    getHourlyIcon(dates[i],"18");
-
-                const windSpeed =
-                    getHourlyWind(dates[i],"12");
-
-                const card =
-                    document.createElement("div");
-
-                card.className =
-                    "weather-card";
-
-                card.innerHTML = `
-
-                    <div class="date">
-                        ${formattedDate}
-                    </div>
-
-                    <div class="timeline">
-
-                        <div class="time-slot">
-                            <span class="time">06</span>
-                            <span class="emoji">${icon06}</span>
-                        </div>
-
-                        <div class="time-slot">
-                            <span class="time">09</span>
-                            <span class="emoji">${icon09}</span>
-                        </div>
-
-                        <div class="time-slot">
-                            <span class="time">12</span>
-                            <span class="emoji">${icon12}</span>
-                        </div>
-
-                        <div class="time-slot">
-                            <span class="time">15</span>
-                            <span class="emoji">${icon15}</span>
-                        </div>
-
-                        <div class="time-slot">
-                            <span class="time">18</span>
-                            <span class="emoji">${icon18}</span>
-                        </div>
-
-                    </div>
-
-                    <div class="temps">
-
-                        <div class="max-temp"
-                             style="color:${getTempColor(maxTemps[i])}">
-                            ↑ ${Math.round(maxTemps[i])}℃
-                        </div>
-                        
-                        <div class="min-temp"
-                             style="color:${getTempColor(minTemps[i])}">
-                            ↓ ${Math.round(minTemps[i])}℃
-                        </div>
-
-                    </div>
-
-                    <div class="wind">
-                        💨 ${windSpeed} m/s
-                    </div>
-
                 `;
 
-                grid.appendChild(card);
+                console.error(error);
+
             }
+
         }
 
         loadWeather();
