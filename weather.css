@@ -108,11 +108,11 @@ body{
 
     color:#333;
 
-    font-size:1.2rem;
+    font-size:2rem;
 }
 
 .today-row:nth-child(3) .row-values span{
-    font-size:2rem;
+    font-size:4rem;
 }
 
 .today-temp-summary{
