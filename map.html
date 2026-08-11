@@ -147,7 +147,28 @@
             'fa-solid fa-hotel',
             'map-icon hotelIcon'
         );
-        
+
+        const museumIcon = createIcon(
+            'fa-solid fa-building-columns',
+            'map-icon museumIcon'
+        );
+
+        const churchIcon = createIcon(
+            'fa-solid fa-church',
+            'map-icon churchIcon'
+        );
+
+        const monumentIcon = createIcon(
+            'fa-solid fa-monument',
+            'map-icon monumentIcon'
+        );
+
+        const castleIcon = createIcon(
+            'fa-solid fa-school-flag',
+            'map-icon castleIcon'
+        );
+
+            
         // Thomond Student Village
         L.marker(
             [52.682556, -8.659160],
@@ -307,6 +328,19 @@
         `);
 
         L.marker(
+            [52.66169536076942, -8.630791678946053],
+            { icon: cafeIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Babylon</b><br>
+            コーヒーショップ<br>
+            日曜以外 7:30 - 17:00<br>
+            日曜　　 9:00 - 17:00<br>
+            <i class="fa-solid fa-car"></i> 車 10分
+        `);
+
+        L.marker(
             [52.66674706447655, -8.642906621434484],
             { icon: cafeIcon }
         )
@@ -317,6 +351,47 @@
             日曜以外 9:00 - 16:30<br>
             日休<br>
             <i class="fa-solid fa-car"></i> 車 7分
+        `);
+
+        L.marker(
+            [52.66120519468505, -8.62122145086299],
+            { icon: cafeIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Insomnia Coffee Company</b><br>
+            カフェ<br>
+            7:00 - 20:00<br>
+            <i class="fa-solid fa-car"></i> 車 12分
+        `);
+
+        L.marker(
+            [52.64047842647565, -8.645753431809649],
+            { icon: cafeIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Butler's Chocolate Cafe</b><br>
+            カフェ<br>
+            月火水  8:30 - 18:00<br>
+            木金　  8:30 - 21:00<br>
+            土　　  9:00 - 18:00<br>
+            日　　 11:00 - 18:00<br>
+            <i class="fa-solid fa-car"></i> 車 14分
+        `);
+
+        L.marker(
+            [52.66709245621076, -8.623859116814199],
+            { icon: cafeIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Abbey River Coffee</b><br>
+            カフェ<br>
+            月火水木金  8:00 - 15:00<br>
+            土　　　　 10:00 - 14:00<br>
+            日休
+            <i class="fa-solid fa-car"></i> 車 10分
         `);
 
         // レストラン
@@ -371,6 +446,33 @@
         `);
 
         L.marker(
+            [52.66321211200594, -8.62764398809947],
+            { icon: burgerIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Supermac's & Papa John's O'Connell St Limerick</b><br>
+            ハンバーガーショップ<br>
+            月火水木日 10:00 - 0:30<br>
+            金　　　　 10:00 - 3:00<br>
+            土　　　　 10:00 - 3:30<br>
+            <i class="fa-solid fa-car"></i> 車 10分
+        `);
+
+        L.marker(
+            [52.65593191954044, -8.64716033891832],
+            { icon: burgerIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Supermac's Dock Road Limerick</b><br>
+            ハンバーガーショップ<br>
+            12:00 - 22:00<br>
+            駐車場あり
+            <i class="fa-solid fa-car"></i> 車 10分
+        `);
+        
+        L.marker(
             [52.670270784612775, -8.657243890966827],
             { icon: pizzaIcon }
         )
@@ -396,6 +498,19 @@
             <i class="fa-solid fa-car"></i> 車 8分
         `);
 
+        L.marker(
+            [52.65913223213501, -8.625825847113846],
+            { icon: pizzaIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Apache Pizza Limerick City</b><br>
+            ピザ<br>
+            月火水木日 12:00 - 2:45<br>
+            金土　　 　12:00 - 3:00<br>
+            <i class="fa-solid fa-car"></i> 車 13分
+        `);
+        
         L.marker(
             [52.66948521763964, -8.656801131003308],
             { icon: drumstickIcon }
@@ -512,6 +627,30 @@
             <i class="fa-solid fa-car"></i> 車 3分<br>
             <i class="fa-solid fa-person-walking"></i>徒歩 14分
         `);
+
+        L.marker(
+            [52.65824821856421, -8.628297617171237],
+            { icon: parkIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>People's Park</b><br>
+            公園<br>
+            8:00 - 21:00<br>
+            <i class="fa-solid fa-car"></i> 車 12分<br>
+        `);
+
+        L.marker(
+            [52.66548753199329, -8.627015713757203],
+            { icon: parkIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Arthur's Quay Park</b><br>
+            公園<br>
+            <i class="fa-solid fa-car"></i> 車 10分<br>
+        `);
+        
         // 会場
         L.marker(
             [52.671520495948556, -8.556843669815972],
@@ -560,6 +699,106 @@
         .bindPopup(`
             <b>嫁ちゃんズ宿</b><br>
             <i class="fa-solid fa-car"></i> 車 7分<br>
+        `);
+
+        // 博物館 / 美術館
+        L.marker(
+            [52.663934949168365, -8.628770308511738],
+            { icon: museumIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Limerick Museum</b><br>
+            平日 10:00 - 17:00<br>
+            土　 10:00 - 13:00 14:00 - 17:00<br>
+            <i class="fa-solid fa-car"></i> 車 10分<br>
+        `);
+
+        L.marker(
+            [52.66618240186909, -8.624217717102507],
+            { icon: museumIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>The Hunt Museum</b><br>
+            火水木金土 10:00 - 17:00<br>
+            日　 11:00 - 17:00<br>
+            月休<br>
+            入場料 €10
+            <i class="fa-solid fa-car"></i> 車 10分<br>
+        `);
+        
+        L.marker(
+            [52.65824934384105, -8.629835193803574],
+            { icon: museumIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>The People's Museum of Limerick</b><br>
+            火水木金土 10:00 - 16:00<br>
+            日　 12:00 - 16:00<br>
+            月休<br>
+            入場料 €5
+            <i class="fa-solid fa-car"></i> 車 12分<br>
+        `);
+
+        L.marker(
+            [52.65895123977711, -8.62849878888166],
+            { icon: museumIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Limerick City Gallery of Art</b><br>
+            日以外 10:00 - 17:00<br>
+            日　　 12:00 - 17:00<br>
+            <i class="fa-solid fa-car"></i> 車 12分<br>
+        `);
+
+        // その他
+        L.marker(
+            [52.66845095004841, -8.623202464141185],
+            { icon: churchIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Saint Mary's Cathedral</b><br>
+            日以外 11:00 - 16:00<br>
+            入場料 €5
+            <i class="fa-solid fa-car"></i> 車 10分<br>
+        `);
+
+        L.marker(
+            [52.6561284948843, -8.635814069717306],
+            { icon: churchIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>Redemptorist Catholic Church</b><br>
+            日以外 9:00 - 17:00<br>
+            <i class="fa-solid fa-car"></i> 車 13分<br>
+        `);
+
+        L.marker(
+            [52.6597219869668, -8.638551262758583],
+            { icon: monumentIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>The Dock Clock</b><br>
+            時計台的なやつ
+            <i class="fa-solid fa-car"></i> 車 11分<br>
+        `);
+
+        L.marker(
+            [52.669746169864794, -8.625489767917218],
+            { icon: castleIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>King John's Castle</b><br>
+            9:30 - 18:00
+            入場料 €16.5
+            <i class="fa-solid fa-car"></i> 車 10分<br>
         `);
         
     </script>
