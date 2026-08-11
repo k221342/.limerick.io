@@ -116,7 +116,7 @@ body{
 
 /* Weather行 */
 .today-row:nth-child(3) .row-values span{
-    font-size:2.4rem;
+    font-size:2rem;
 }
 
 /* Temp行 */
@@ -153,6 +153,94 @@ body{
 
 .today-temp-summary span:last-child{
     color:#1d6fd7;
+}
+
+/* =========================
+   UV情報
+   ========================= */
+
+.uv-summary{
+    margin-top:18px;
+
+    padding:14px 16px;
+
+    border-radius:16px;
+
+    border:2px solid transparent;
+}
+
+.uv-main{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-weight:800;
+}
+
+.uv-icon{
+    font-size:1.3rem;
+}
+
+.uv-level{
+    flex:1;
+}
+
+.uv-value{
+    font-size:1.2rem;
+}
+
+.uv-sub{
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:6px;
+
+    font-size:0.9rem;
+
+    opacity:0.9;
+}
+
+.uv-action{
+    margin-top:10px;
+
+    font-weight:700;
+
+    font-size:0.95rem;
+}
+
+/* UVレベル別 */
+
+.uv-low{
+    background:#e8f5e9;
+    border-color:#66bb6a;
+    color:#2e7d32;
+}
+
+.uv-moderate{
+    background:#fff8e1;
+    border-color:#fbc02d;
+    color:#f57f17;
+}
+
+.uv-high{
+    background:#fff3e0;
+    border-color:#fb8c00;
+    color:#ef6c00;
+}
+
+.uv-very-high{
+    background:#ffebee;
+    border-color:#e53935;
+    color:#c62828;
+}
+
+.uv-extreme{
+    background:#f3e5f5;
+    border-color:#8e24aa;
+    color:#6a1b9a;
 }
 
 /* 明日以降の横スクロール */
@@ -412,7 +500,7 @@ body{
     }
     
     .today-row:nth-child(3) .row-values span{
-        font-size:2.4rem;
+        font-size:2rem;
     }
     
     .today-row:nth-child(4) .row-values span{
