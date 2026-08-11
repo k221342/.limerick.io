@@ -21,7 +21,7 @@
 
         </div>
 
-        <div id="todayweather"></div>
+        <div id="todayWeather"></div>
         <div id="weatherGrid" class="weather-grid">
 
             <div class="loading">
@@ -81,13 +81,13 @@
                 "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
                 "&hourly=weather_code,wind_speed_10m,temperature_2m" +
                 "&timezone=auto";
-
-            const hourlyTemp =
-                data.hourly.temperature_2m;
             
             const response = await fetch(url);
 
             const data = await response.json();
+
+            const hourlyTemp =
+                data.hourly.temperature_2m;
 
             const grid =
                 document.getElementById("weatherGrid");
@@ -98,6 +98,24 @@
                 document.getElementById(
                     "todayWeather"
                 );
+
+            const dates =
+                data.daily.time;
+
+            const maxTemps =
+                data.daily.temperature_2m_max;
+
+            const minTemps =
+                data.daily.temperature_2m_min;
+
+            const hourlyTimes =
+                data.hourly.time;
+
+            const hourlyCodes =
+                data.hourly.weather_code;
+
+            const hourlyWind =
+                data.hourly.wind_speed_10m;
             
             const todayDate =
                 dates[0];
@@ -107,7 +125,58 @@
             
             const todayFormatted =
                 `${todayObj.getMonth()+1}/${todayObj.getDate()} (${weekdays[todayObj.getDay()]})`;
-            
+
+            function getHourlyIcon(date, hour) {
+
+                const target =
+                    `${date}T${hour}:00`;
+
+                const index =
+                    hourlyTimes.indexOf(target);
+
+                if(index < 0){
+                    return "❓";
+                }
+
+                return (
+                    weatherCodeMap[
+                        hourlyCodes[index]
+                    ] || ["❓"]
+                )[0];
+            }
+
+            function getHourlyWind(date, hour){
+
+                const target =
+                    `${date}T${hour}:00`;
+
+                const index =
+                    hourlyTimes.indexOf(target);
+
+                if(index < 0){
+                    return "-";
+                }
+
+                return Math.round(
+                    hourlyWind[index] / 3.6
+                ).toFixed(1);
+            }
+
+            function getHourlyTemp(date, hour){
+                const target =
+                    '${date}T${hour}:00';
+
+                const index =
+                    hourlyTimes.indexOf(target);
+                if(index < 0){
+                    return "-";
+                }
+
+                return Math.round(
+                    hourlyTemp[index]
+                    );
+            }
+
             todayContainer.innerHTML = `
             
                 <div class="today-card">
@@ -168,75 +237,6 @@
                 </div>
             
             `;
-            
-            const dates =
-                data.daily.time;
-
-            const maxTemps =
-                data.daily.temperature_2m_max;
-
-            const minTemps =
-                data.daily.temperature_2m_min;
-
-            const hourlyTimes =
-                data.hourly.time;
-
-            const hourlyCodes =
-                data.hourly.weather_code;
-
-            const hourlyWind =
-                data.hourly.wind_speed_10m;
-
-            function getHourlyIcon(date, hour) {
-
-                const target =
-                    `${date}T${hour}:00`;
-
-                const index =
-                    hourlyTimes.indexOf(target);
-
-                if(index < 0){
-                    return "❓";
-                }
-
-                return (
-                    weatherCodeMap[
-                        hourlyCodes[index]
-                    ] || ["❓"]
-                )[0];
-            }
-
-            function getHourlyWind(date, hour){
-
-                const target =
-                    `${date}T${hour}:00`;
-
-                const index =
-                    hourlyTimes.indexOf(target);
-
-                if(index < 0){
-                    return "-";
-                }
-
-                return Math.round(
-                    hourlyWind[index] / 3.6
-                ).toFixed(1);
-            }
-
-            function genHourlyTemp(date, hour){
-                const target =
-                    '${date}T${hour}:00";
-
-                const index =
-                    hourlyTimes.index0f(target);
-                if(index < 0){
-                    return "-";
-                }
-
-                return Math.round(
-                    hourlyTemp[index]
-                    );
-            }
 
             for(let i=1;i<dates.length;i++){
 
