@@ -408,11 +408,11 @@ body{
     }
 
     .today-row:nth-child(1) .row-values span{
-        font-size:1.0rem;
+        font-size:0.8rem;
     }
     
     .today-row:nth-child(2) .row-values span{
-        font-size:2rem;
+        font-size:3rem;
     }
     
     .today-row:nth-child(3) .row-values span{
