@@ -110,6 +110,11 @@ body {
     color: var(--park-color);
 }
 
+/* ホテル */
+.hotel-icon i {
+    color: var(--home-color);
+}
+
 /* ポップアップ */
 .leaflet-popup-content {
     font-family:
