@@ -229,11 +229,27 @@
                     <div class="today-row">
                         <div class="row-label">Temp</div>
                         <div class="row-values">
-                            <span>${getHourlyTemp(todayDate,"06")}°</span>
-                            <span>${getHourlyTemp(todayDate,"09")}°</span>
-                            <span>${getHourlyTemp(todayDate,"12")}°</span>
-                            <span>${getHourlyTemp(todayDate,"15")}°</span>
-                            <span>${getHourlyTemp(todayDate,"18")}°</span>
+                    
+                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'06'))}">
+                                ${getHourlyTemp(todayDate,"06")}°
+                            </span>
+                    
+                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'09'))}">
+                                ${getHourlyTemp(todayDate,"09")}°
+                            </span>
+                    
+                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'12'))}">
+                                ${getHourlyTemp(todayDate,"12")}°
+                            </span>
+                    
+                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'15'))}">
+                                ${getHourlyTemp(todayDate,"15")}°
+                            </span>
+                    
+                            <span style="color:${getTempColor(getHourlyTemp(todayDate,'18'))}">
+                                ${getHourlyTemp(todayDate,"18")}°
+                            </span>
+                    
                         </div>
                     </div>
             
