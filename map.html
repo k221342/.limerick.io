@@ -142,6 +142,11 @@
             'fa-solid fa-compact-disc',
             'map-icon field-icon'
         );
+
+        const hotelIcon = createIcon(
+            'fa-solid fa-hotel'
+            'map-icon hotelIcon'
+        );
         
         // Thomond Student Village
         L.marker(
@@ -544,7 +549,19 @@
             会場 Field 3<br>
             天然芝 6面<br>
             <i class="fa-solid fa-car"></i> 車 15分<br>
-        `);  
+        `);
+
+        // 嫁ホテル
+        L.marker(
+            [52.66037443127986, -8.637588868024556],
+            { icon: hotelIcon }
+        )
+        .addTo(map)
+        .bindPopup(`
+            <b>嫁ちゃんズ宿</b><br>
+            <i class="fa-solid fa-car"></i> 車 7分<br>
+        `);
+        
     </script>
 
 </body>
