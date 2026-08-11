@@ -121,6 +121,9 @@ body {
 .castle-icon i {
     color: var(--museum-color);
 }
+.monument-icon i {
+    color: var(--museum-color);
+}
 
 /* ポップアップ */
 .leaflet-popup-content {
