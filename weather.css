@@ -111,7 +111,7 @@ body{
 
 /* Time行 */
 .today-row:nth-child(2) .row-values span{
-    font-size:0.8rem;
+    font-size:1.15rem;
 }
 
 /* Weather行 */
@@ -408,7 +408,7 @@ body{
     }
 
     .today-row:nth-child(2) .row-values span{
-        font-size:1.0rem;
+        font-size:1.15rem;
     }
     
     .today-row:nth-child(3) .row-values span{
