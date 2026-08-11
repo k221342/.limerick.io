@@ -8,6 +8,7 @@
     --gs-color: #ff0000;
     --park-color: #2e7d32;
     --field-color: #2e7d32;
+    --museum-color: #800080;
 }
 
 html,
@@ -95,11 +96,6 @@ body {
     color: var(--gs-color);
 }
 
-/* パブ */
-.pub-icon i {
-    color: var(--pub-color);
-}
-
 /* 公園 */
 .park-icon i {
     color: var(--park-color);
@@ -113,6 +109,17 @@ body {
 /* ホテル */
 .hotel-icon i {
     color: var(--home-color);
+}
+
+/*その他*/
+.museum-icon i {
+    color: var(--museum-color);
+}
+.church-icon i {
+    color: var(--museum-color);
+}
+.castle-icon i {
+    color: var(--museum-color);
 }
 
 /* ポップアップ */
