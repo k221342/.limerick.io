@@ -163,18 +163,20 @@
             }
 
             function getHourlyTemp(date, hour){
-                const target =
-                    '${date}T${hour}:00';
 
+                const target =
+                    `${date}T${hour}:00`;
+            
                 const index =
                     hourlyTimes.indexOf(target);
+            
                 if(index < 0){
                     return "-";
                 }
-
+            
                 return Math.round(
                     hourlyTemp[index]
-                    );
+                );
             }
 
             todayContainer.innerHTML = `
