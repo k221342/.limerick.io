@@ -179,6 +179,23 @@
                 );
             }
 
+            function getTempColor(temp){
+
+                if(temp <= 10){
+                    return "#1d6fd7";
+                }
+            
+                if(temp <= 15){
+                    return "#4b8cff";
+                }
+            
+                if(temp <= 20){
+                    return "#ff9800";
+                }
+            
+                return "#e53935";
+            }
+
             todayContainer.innerHTML = `
             
                 <div class="today-card">
@@ -232,12 +249,17 @@
                     </div>
             
                     <div class="today-temp-summary">
-                        <span>↑ ${Math.round(maxTemps[0])}°</span>
-                        <span>↓ ${Math.round(minTemps[0])}°</span>
-                    </div>
-            
+                        <span
+                            style="color:${getTempColor(maxTemps[0])}">
+                            ↑ ${Math.round(maxTemps[0])}°
+                        </span>
+                    
+                        <span
+                            style="color:${getTempColor(minTemps[0])}">
+                            ↓ ${Math.round(minTemps[0])}°
+                        </span>
+                    </div>           
                 </div>
-            
             `;
 
             for(let i=1;i<dates.length;i++){
@@ -309,11 +331,13 @@
 
                     <div class="temps">
 
-                        <div class="max-temp">
+                        <div class="max-temp"
+                             style="color:${getTempColor(maxTemps[i])}">
                             ↑ ${Math.round(maxTemps[i])}℃
                         </div>
-
-                        <div class="min-temp">
+                        
+                        <div class="min-temp"
+                             style="color:${getTempColor(minTemps[i])}">
                             ↓ ${Math.round(minTemps[i])}℃
                         </div>
 
