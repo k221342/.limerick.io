@@ -76,6 +76,85 @@ body{
     margin-bottom:18px;
 }
 
+/* 現在のリアルタイム天気 */
+
+.current-weather-row{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1.4fr
+        1fr;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:18px;
+
+    padding:12px 14px;
+
+    background:#f4f8ff;
+
+    border:1px solid #dce7f5;
+
+    border-radius:16px;
+}
+
+.current-time,
+.current-wind{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.current-label{
+
+    font-size:1.2rem;
+
+    line-height:1;
+}
+
+.current-value{
+
+    color:#222;
+
+    font-size:1rem;
+
+    font-weight:800;
+
+    margin-top:4px;
+}
+
+.current-main{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+}
+
+.current-icon{
+
+    font-size:1.8rem;
+}
+
+.current-temp{
+
+    font-size:1.6rem;
+
+    font-weight:900;
+}
+
 .today-row{
     margin-bottom:14px;
 }
@@ -531,5 +610,37 @@ body{
 
     .date{
         font-size:1rem;
+    }
+
+    .current-weather-row{
+
+        grid-template-columns:
+            1fr
+            1.2fr
+            1fr;
+    
+        gap:8px;
+    
+        padding:10px;
+    }
+    
+    .current-label{
+    
+        font-size:1.05rem;
+    }
+    
+    .current-value{
+    
+        font-size:0.9rem;
+    }
+    
+    .current-icon{
+    
+        font-size:1.6rem;
+    }
+    
+    .current-temp{
+    
+        font-size:1.4rem;
     }
 }
