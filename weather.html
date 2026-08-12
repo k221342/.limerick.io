@@ -88,7 +88,7 @@
                 "https://api.open-meteo.com/v1/forecast" +
                 "?latitude=" + LATITUDE +
                 "&longitude=" + LONGITUDE +
-                "&current=temperature_2m,weather_code,wind_speed_10," +
+                "&current=temperature_2m,weather_code,wind_speed_10m" +
                 "&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max" +
                 "&hourly=weather_code,wind_speed_10m,temperature_2m,uv_index" +
                 "&wind_speed_unit=kmh" +
@@ -149,6 +149,16 @@
                         new Date(dateText);
 
                     return `${d.getMonth() + 1}/${d.getDate()} (${weekdays[d.getDay()]})`;
+
+                }
+
+                function formatCurrentTime(timeText) {
+
+                    if (!timeText) {
+                        return "--:--";
+                    }
+
+                    return timeText.slice(11, 16);
 
                 }
 
@@ -320,19 +330,8 @@
 
                     }
 
-                    if (peakTime === "") {
-                        return "";
-                    }
-
                     return peakTime;
 
-                }
-
-                function formatCurrentTime(timeText) {
-                    if (!timeText) {
-                        return "--:--";
-                    }
-                    return timeText.slice(11, 16);
                 }
 
                 function createRow(label, valuesHtml) {
@@ -343,6 +342,48 @@
                             <div class="row-values">
                                 ${valuesHtml}
                             </div>
+                        </div>
+                    `;
+
+                }
+
+                function createCurrentWeatherRow() {
+
+                    const currentIcon =
+                        (
+                            weatherCodeMap[
+                                current.weather_code
+                            ] || ["❓"]
+                        )[0];
+
+                    return `
+                        <div class="current-weather-row">
+
+                            <div class="current-time">
+                                <span class="current-label">Now</span>
+                                <span class="current-value">
+                                    ${formatCurrentTime(current.time)}
+                                </span>
+                            </div>
+
+                            <div class="current-main">
+                                <span class="current-icon">
+                                    ${currentIcon}
+                                </span>
+
+                                <span class="current-temp"
+                                      style="color:${getTempColor(current.temperature_2m)}">
+                                    ${Math.round(current.temperature_2m)}°
+                                </span>
+                            </div>
+
+                            <div class="current-wind">
+                                <span class="current-label">Wind</span>
+                                <span class="current-value">
+                                    ${(current.wind_speed_10m / 3.6).toFixed(1)} m/s
+                                </span>
+                            </div>
+
                         </div>
                     `;
 
@@ -408,37 +449,8 @@
                             <div class="${isToday ? "today-title" : "date"}">
                                 ${title}
                             </div>
-                            ${isToday ? `
-                            <div class="current-weather-row">
-                            <div class="current-time">
-                            <span class="current-label">Now</span>
-                            <span class="current-value">
-                            ${formatCurrentTime(current.time)}
-                            </span>
-                            </div>
-                            <div class="current-main">
-                            <span class="current-icon">
-                            &{(
-                            weatherCodeMap[
-                            current.weather_code
-                            ] || ["❓"]
-                            )[0]}
-                            </span>
 
-                            <span class="current-temp"
-                            tyle="color:${getTempColor(current.temperature_2m)}">
-                            {Math.round(current.temperature_2m)}
-                            </span>
-                            </div>
-                            <div class="current-wind">
-                            <span class="current-label">Wind</span>
-                            <span class="current-value">
-                            ${(current.wind_speed_10m / 3.6).toFixed(1)} m/s
-                            </span>
-                            </div>
-
-                            </div>
-                            ` : ""}
+                            ${isToday ? createCurrentWeatherRow() : ""}
 
                             ${createRow("Time", timeValues)}
 
