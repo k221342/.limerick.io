@@ -152,16 +152,6 @@
 
                 }
 
-                function formatCurrentTime(timeText) {
-
-                    if (!timeText) {
-                        return "--:--";
-                    }
-
-                    return timeText.slice(11, 16);
-
-                }
-
                 function getHourlyIndex(date, hour) {
 
                     const target =
@@ -334,10 +324,10 @@
 
                 }
 
-                function createRow(label, valuesHtml) {
+                function createRow(label, valuesHtml, rowClass) {
 
                     return `
-                        <div class="today-row">
+                        <div class="today-row ${rowClass}">
                             <div class="row-label">${label}</div>
                             <div class="row-values">
                                 ${valuesHtml}
@@ -348,45 +338,45 @@
                 }
 
                 function createCurrentWeatherRow() {
-                
+
                     const currentIcon =
                         (
                             weatherCodeMap[
                                 current.weather_code
                             ] || ["❓"]
                         )[0];
-                
+
                     return `
                         <div class="current-weather-row">
-                
+
                             <div class="current-time">
                                 <span class="current-label">🕒</span>
                                 <span class="current-value">
                                     今の天気
                                 </span>
                             </div>
-                
+
                             <div class="current-main">
                                 <span class="current-icon">
                                     ${currentIcon}
                                 </span>
-                
+
                                 <span class="current-temp"
                                       style="color:${getTempColor(current.temperature_2m)}">
                                     ${Math.round(current.temperature_2m)}°
                                 </span>
                             </div>
-                
+
                             <div class="current-wind">
                                 <span class="current-label">💨</span>
                                 <span class="current-value">
                                     ${(current.wind_speed_10m / 3.6).toFixed(1)} m/s
                                 </span>
                             </div>
-                
+
                         </div>
                     `;
-                
+
                 }
 
                 function createWeatherDetailCard(date, index, isToday) {
@@ -452,13 +442,13 @@
 
                             ${isToday ? createCurrentWeatherRow() : ""}
 
-                            ${createRow("Time", timeValues)}
+                            ${createRow("Time", timeValues, "time-row")}
 
-                            ${createRow("Weather", weatherValues)}
+                            ${createRow("Weather", weatherValues, "weather-row")}
 
-                            ${createRow("Temp", tempValues)}
+                            ${createRow("Temp", tempValues, "temp-row")}
 
-                            ${createRow("Wind (m/s)", windValues)}
+                            ${createRow("Wind (m/s)", windValues, "wind-row")}
 
                             <div class="uv-summary ${uvInfo.className}">
 
